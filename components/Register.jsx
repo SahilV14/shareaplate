@@ -6,7 +6,7 @@ export const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [value, setValue] = useState('first');
+    const [isdonor, setIsdonor] = useState("");
     return(
         <View style={styles.container}>
         <Text style={styles.heading}>Register</Text>
@@ -25,13 +25,15 @@ export const Register = () => {
             <TextInput
                 style={styles.text_input}
                 placeholder="Phone Number"
+                onChangeText={setIsdonor}
+                value={isdonor}
+            />
+            <TextInput
+                style={styles.text_input}
+                placeholder="Donor/Needy"
                 onChangeText={setPhone}
                 value={phone}
             />
-            <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
-                <RadioButton.Item value="first"  label="Donate Food"/>
-                <RadioButton.Item value="second"  label="Request Food"/>
-             </RadioButton.Group>
 
         </View>
     )
@@ -49,5 +51,6 @@ const styles = StyleSheet.create({
       display: "flex",
       alignItems: "center",
         rowGap : 30,
+        justifyContent: "center",
     },
 });

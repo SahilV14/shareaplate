@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, TouchableOpacity, AsyncStorage} from "react-native";
+import {Button, Text, TouchableOpacity} from "react-native";
 import {View, TextInput, Image, StyleSheet} from 'react-native';
 import img1 from "../images/img1.jpg"
-import axios from "axios";
-export const Homepage =  () => {
-    const onPressLogin = () => {
-    };
-    const onPressForgotPassword = () => {
-    };
-    const onPressSignUp = () => {
+import {useNavigation} from "@react-navigation/native";
+// import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
-    };
+// const storeToken = async (token) => {
+//     try {
+//         console.log('Access token saved successfully');
+//     } catch (error) {
+//         console.log('Error saving access token:', error);
+//     }
+// }
+export const Homepage =  () => {
+
+    const navigation = useNavigation();
 
     const [username , setUsername] = useState("")
     const [password , setPassword] = useState("")
@@ -28,9 +32,8 @@ export const Homepage =  () => {
                     console.log("Success")
                     return res.json()
                 }
-            }).then(data =>
-                console.log(data)
-
+            }).then(
+                navigation.navigate('Donate')
             )
         }
         catch (error){
@@ -56,9 +59,13 @@ export const Homepage =  () => {
             onChangeText={text => setPassword(text)}
         />
 
-        <TouchableOpacity onPress={sendFormData}>
-        <Text title="login">Login</Text>
+
+        <Button title="login" onPress={sendFormData}>Login</Button>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text>Register</Text>
         </TouchableOpacity>
+
     </View>
 </View>
     );
