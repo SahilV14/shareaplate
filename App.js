@@ -6,6 +6,7 @@ import {Donate} from "./components/Donate";
 import {DonationForm} from "./components/DonationForm";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {Receiver} from "./components/Receiver";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Donate" component={Donate} />
           <Stack.Screen name="DonationForm" component={DonationForm} />
+          <Stack.Screen name="Receiver" component={Receiver} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

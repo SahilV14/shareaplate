@@ -4,15 +4,7 @@ import {View, TextInput, Image, StyleSheet} from 'react-native';
 import img1 from "../images/img1.jpg"
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
-// const storeToken = async (token) => {
-//     try {
-//         console.log('Access token saved successfully');
-//     } catch (error) {
-//         console.log('Error saving access token:', error);
-//     }
-// }
 export const Homepage =  () => {
 
     const navigation = useNavigation();
@@ -29,7 +21,6 @@ export const Homepage =  () => {
         }
     }
     const sendFormData = () => {
-        console.log("Hello")
         const formData = new FormData();
         formData.append('username' , username);
         formData.append('password' , password)
@@ -79,7 +70,11 @@ export const Homepage =  () => {
         <Button title="login" onPress={sendFormData}>Login</Button>
 
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text>Register</Text>
+            <Text style={styles.reg_text}>Dont have an account? Register now</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Receiver')}>
+            <Text style={styles.reg_text}>Are you hungry?</Text>
         </TouchableOpacity>
 
     </View>
@@ -90,6 +85,7 @@ export const Homepage =  () => {
 const styles = StyleSheet.create({
     container : {
       padding:30,
+        paddingTop: 80,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -105,7 +101,7 @@ const styles = StyleSheet.create({
         borderStyle:"solid",
         borderColor:"black",
         borderWidth: 0.5,
-        padding: 3,
+        padding: 10,
         borderRadius: 5,
     },
     inputView:{
@@ -125,4 +121,7 @@ const styles = StyleSheet.create({
         rowGap: 25,
         width: 250,
     },
+    reg_text:{
+        textAlign: "center",
+},
 });
