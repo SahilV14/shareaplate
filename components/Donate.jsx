@@ -1,6 +1,6 @@
 import React, { useState , TouchableOpacity } from 'react';
-import { useNavigation, Button } from '@react-navigation/native';
-import {FlatList, View, Text} from "react-native";
+import { useNavigation} from '@react-navigation/native';
+import {FlatList, View, Text , Button} from "react-native";
 
 export const Donate =  () => {
     const navigation = useNavigation();

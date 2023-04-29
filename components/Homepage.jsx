@@ -3,6 +3,7 @@ import {Button, Text, TouchableOpacity} from "react-native";
 import {View, TextInput, Image, StyleSheet} from 'react-native';
 import img1 from "../images/img1.jpg"
 import {useNavigation} from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 // const storeToken = async (token) => {
@@ -18,6 +19,15 @@ export const Homepage =  () => {
 
     const [username , setUsername] = useState("")
     const [password , setPassword] = useState("")
+
+    const storeToken = async (token) => {
+        try{
+            await AsyncStorage.setItem('@donor_token', token)
+        }
+        catch (e){
+            console.log(e)
+        }
+    }
     const sendFormData = () => {
         console.log("Hello")
         const formData = new FormData();
@@ -33,8 +43,14 @@ export const Homepage =  () => {
                     return res.json()
                 }
             }).then(
-                navigation.navigate('Donate')
+                data => {return storeToken(data.access_token);}
             )
+                .then(
+                    r => {return AsyncStorage.getItem('@donor_token')}
+                )
+                .then(
+                    e => navigation.navigate('Donate')
+                )
         }
         catch (error){
             console.log(error)
