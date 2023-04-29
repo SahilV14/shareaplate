@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {TextComponent} from "react-native";
+import {TextComponent, TextInputComponent} from "react-native";
 import {
     SafeAreaView,
     ScrollView,
@@ -26,16 +26,43 @@ const Homepage =  () => {
         password: '',
     })
     return (
-
-        <TextComponent style={styles.heading}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At ducimus fugit illo iure maxime nobis odit officia quisquam tempore ut?</TextComponent>
-
+<View>
+    <TextComponent style={styles.heading}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At ducimus fugit illo iure maxime nobis odit officia quisquam tempore ut?</TextComponent>
+    <View style={styles.inputView}>
+        <TextInput
+            style={styles.inputText}
+            secureTextEntry
+            placeholder="Email"
+            placeholderTextColor="#003f5c"
+            onChangeText={text => setState({email:text})}/>
+        <TextInput
+            style={styles.inputText}
+            secureTextEntry
+            placeholder="Password"
+            placeholderTextColor="#003f5c"
+            onChangeText={text => setState({password:text})}/>
+    </View>
+</View>
     );
+
 }
 const styles = StyleSheet.create({
    heading : {
        fontSize: "1.5rem",
        textAlign: "center",
-
    },
+    inputText:{
+       width: "100%",
+        opacity: 0.7,
+        fontSize: "1rem",
+        margin:"1rem",
+    },
+    inputView:{
+       width: "90%",
+        padding: "1em",
+        display: "flex",
+        flexDirection:"column",
+
+    }
 });
 export default Homepage;
