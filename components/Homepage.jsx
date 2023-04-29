@@ -28,7 +28,10 @@ export const Homepage =  () => {
                     console.log("Success")
                     return res.json()
                 }
-            }).then(data => console.log(data))
+            }).then(data =>
+                console.log(data)
+
+            )
         }
         catch (error){
             console.log(error)
