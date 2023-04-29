@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {Button, Linking, StyleSheet, Text, TouchableOpacity} from "react-native";
 import { View, TextInput } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+import { RadioButton } from 'react-native-paper';
 
 export const Receiver = () => {
     const [loc, setLocation] = useState("");
     const [items, setItems] = useState([]);
+    const [value, setValue] = useState('');
     const searchLocation = () => {
         const formData = new FormData();
         formData.append('username', loc);
@@ -47,14 +48,30 @@ export const Receiver = () => {
             <TouchableOpacity onPress={searchLocation}>
                 <Text title="login">Search</Text>
             </TouchableOpacity>
+            <RadioButton.Group
+                onValueChange={(newValue) => setValue(newValue)}
+                value={value}
+            >
+                <View style={{ flexDirection: 'row' }}>
+                    <RadioButton value="option1" />
+                    <Text>Veg Only</Text>
+                </View>
+            </RadioButton.Group>
+            {/*<Text>Selected option: {value}</Text>*/}
 
             <View>
                 {items.map((item, index) => (
-                    <View key={index}>
-                        <Text>{item.name}</Text>
-                        <Button title="Open Google Maps" onPress={e => handleOpenGoogleMaps(item.pickup_coordinates_x,item.pickup_coordinates_y)} />
+
+                    item.type === 0 && value === "veg" || value !== "veg" ?
+                    (  <View key={index}>
+                    <Text>{item.name}</Text>
+                    <Button title="Open Google Maps" onPress={e => handleOpenGoogleMaps(item.pickup_coordinates_x,item.pickup_coordinates_y)} />
                     </View>
-                ))}
+                    )
+                    :
+                    null
+                ))
+                }
             </View>
 
         </View>
