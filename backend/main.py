@@ -1,3 +1,5 @@
+from cmath import cos, asin, sqrt
+
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta
 from typing import Annotated
@@ -86,10 +88,32 @@ async def createDonor(name : str = Form(...) , organization : str = Form(...) , 
     return status.HTTP_201_CREATED
 
 @app.post("/addItem")
-def add_item(name : str = Form(...) , qty : int = Form(...) , type : int = Form(...) , expiry : int = Form(...) , pickup_coordinates_x : float = Form(...) , pickup_coordinates_y : float = Form(...) , donor_token : str = Form(...)):
+def add_item(name : str = Form(...) , qty : int = Form(...) , type : int = Form(...) , expiry : int = Form(...) , pickup_coordinates_x : float = Form(...) , pickup_coordinates_y : float = Form(...) , donor_token : str = Form(...) , area : str = Form(...)):
     payload = jwt.decode(donor_token, SECRET_KEY, algorithms=[ALGORITHM])
     donor_phone = payload.get("sub")
-    create_item_db(Items(name = name , qty = qty , type = type , expiry = expiry , pickup_coordinates_x = pickup_coordinates_x , pickup_coordinates_y = pickup_coordinates_y , donor_phone = donor_phone , isPickedUp = False))
+    create_item_db(Items(name = name , qty = qty , type = type , expiry = expiry , pickup_coordinates_x = pickup_coordinates_x , pickup_coordinates_y = pickup_coordinates_y , donor_phone = donor_phone , isPickedUp = False , area = area))
+
+@app.get("/allItems")
+def get_all_items():
+    return {"items" : get_all_items_db()}
+
+def distance(lat1, lon1, lat2, lon2):
+    p = 0.017453292519943295
+    hav = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2
+    return 12742 * asin(sqrt(hav))
+
+@app.post("/closestItems")
+def get_closest_items(area_name : str = Form(...)):
+    all_items : list[Items] = get_all_items_db()
+    all_items_sorted = sorted(all_items , key = lambda x : x.area.lower() == area_name.lower())
+    return {"items" : all_items_sorted}
+
+@app.post("/myItems")
+def get_my_items(donor_token : str = Form(...)):
+    payload = jwt.decode(donor_token, SECRET_KEY, algorithms=[ALGORITHM])
+    donor_phone = payload.get("sub")
+    return {"items" : get_donor_items(int(donor_phone))}
+
 
 @app.get("/")
 def default():

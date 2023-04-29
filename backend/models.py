@@ -22,6 +22,9 @@ class Items(BaseModel):
     pickup_coordinates_y : str | None = None
     isPickedUp : bool | None = None
     donor_phone : int | None = None
+    area : str | None = None
+
+
 
 class Reviews(BaseModel):
     no_stars : int | None = None
