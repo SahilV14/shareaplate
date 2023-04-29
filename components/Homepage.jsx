@@ -1,48 +1,75 @@
-import React, { useState } from 'react';
-import {Text} from "react-native";
-import {View, TextInput, Image} from 'react-native';
-import EStyleSheet from "react-native-extended-stylesheet";
+import React, {useEffect, useState} from 'react';
+import {Button, Text, TouchableOpacity, AsyncStorage} from "react-native";
+import {View, TextInput, Image, StyleSheet} from 'react-native';
 import img1 from "../images/img1.jpg"
+import axios from "axios";
 export const Homepage =  () => {
     const onPressLogin = () => {
-// Do something about login operation
     };
     const onPressForgotPassword = () => {
-// Do something about forgot password operation
     };
     const onPressSignUp = () => {
-// Do something about signup operation
 
     };
-    const [state,setState] = useState({
-        email: '',
-        password: '',
-    })
+
+    const [username , setUsername] = useState("")
+    const [password , setPassword] = useState("")
+    const sendFormData = () => {
+        console.log("Hello")
+        const formData = new FormData();
+        formData.append('username' , username);
+        formData.append('password' , password)
+        try {
+            fetch('http://192.168.3.198:8000/tokenDonor', {
+                method: 'POST',
+                body: formData,
+            }).then(res => {
+                if (res.status === 200) {
+                    console.log("Success")
+                    return res.json()
+                }
+            }).then(data => console.log(data))
+        }
+        catch (error){
+            console.log(error)
+        }
+    }
     return (
-<View>
+<View style={styles.container}>
     <Image
-        source={require('../images/img1.jpg')}
+        source={img1}
         style={styles.image}
     />
-    <Text style={styles.heading}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At ducimus fugit illo iure maxime nobis odit officia quisquam tempore ut?</Text>
-    <View >
+    <Text style={styles.heading}>Login</Text>
+    <View style={styles.inputs}>
         <TextInput
             style={styles.inputText}
-            placeholder="Email"
-
-            // onChangeText={text => setState({email:text})}
+            placeholder="Phone Number"
+            onChangeText={text => setUsername(text)}
         />
         <TextInput
             style={styles.inputText}
             placeholder="Password"
-            // onChangeText={text => setState({password:text})}
+            onChangeText={text => setPassword(text)}
         />
+
+        <TouchableOpacity onPress={sendFormData}>
+        <Text title="login">Login</Text>
+        </TouchableOpacity>
     </View>
 </View>
     );
 
 }
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
+    container : {
+      padding:30,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+        justifyContent : "center",
+        rowGap : 40,
+    },
    heading : {
        fontSize: 24,
        textAlign: "center",
@@ -51,16 +78,25 @@ const styles = EStyleSheet.create({
         opacity: 0.7,
         borderStyle:"solid",
         borderColor:"black",
+        borderWidth: 0.5,
+        padding: 3,
+        borderRadius: 5,
     },
     inputView:{
-       width: 90,
+       width: 400,
         padding: 1,
         display: "flex",
         flexDirection:"column",
         justifyContent:"center",
     },
     image:{
-        width:100,
-        marginBottom: 2
-    }
+        height: 200,
+        width: 200,
+    },
+    inputs:{
+        display: "flex",
+        flexDirection : "column",
+        rowGap: 25,
+        width: 250,
+    },
 });
