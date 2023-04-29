@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {Text} from "react-native";
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Image} from 'react-native';
 import EStyleSheet from "react-native-extended-stylesheet";
+import img1 from "../images/img1.jpg"
 export const Homepage =  () => {
     const onPressLogin = () => {
 // Do something about login operation
@@ -11,6 +12,7 @@ export const Homepage =  () => {
     };
     const onPressSignUp = () => {
 // Do something about signup operation
+
     };
     const [state,setState] = useState({
         email: '',
@@ -18,6 +20,10 @@ export const Homepage =  () => {
     })
     return (
 <View>
+    <Image
+        source={require('../images/img1.jpg')}
+        style={styles.image}
+    />
     <Text style={styles.heading}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At ducimus fugit illo iure maxime nobis odit officia quisquam tempore ut?</Text>
     <View >
         <TextInput
@@ -52,5 +58,9 @@ const styles = EStyleSheet.create({
         display: "flex",
         flexDirection:"column",
         justifyContent:"center",
+    },
+    image:{
+        width:100,
+        marginBottom: 2
     }
 });
