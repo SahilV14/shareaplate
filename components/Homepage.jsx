@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import {TextComponent} from "react-native";
-
+import {
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    useColorScheme,
+    View,
+    TextInput,
+    TouchableOpacity,
+} from 'react-native';
 const Homepage =  () => {
     const onPressLogin = () => {
 // Do something about login operation
@@ -22,8 +32,8 @@ const Homepage =  () => {
     );
 }
 const styles = StyleSheet.create({
-   heading{
-       fontSize: 1.5rem,
+   heading : {
+       fontSize: "1.5rem",
        textAlign: "center",
 
    },
