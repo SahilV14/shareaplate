@@ -1,19 +1,33 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, TouchableOpacity, AsyncStorage} from "react-native";
+import {Button, Text, TouchableOpacity} from "react-native";
 import {View, TextInput, Image, StyleSheet} from 'react-native';
 import img1 from "../images/img1.jpg"
-import axios from "axios";
-export const Homepage =  () => {
-    const onPressLogin = () => {
-    };
-    const onPressForgotPassword = () => {
-    };
-    const onPressSignUp = () => {
+import {useNavigation} from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
-    };
+// const storeToken = async (token) => {
+//     try {
+//         console.log('Access token saved successfully');
+//     } catch (error) {
+//         console.log('Error saving access token:', error);
+//     }
+// }
+export const Homepage =  () => {
+
+    const navigation = useNavigation();
 
     const [username , setUsername] = useState("")
     const [password , setPassword] = useState("")
+
+    const storeToken = async (token) => {
+        try{
+            await AsyncStorage.setItem('@donor_token', token)
+        }
+        catch (e){
+            console.log(e)
+        }
+    }
     const sendFormData = () => {
         console.log("Hello")
         const formData = new FormData();
@@ -28,10 +42,15 @@ export const Homepage =  () => {
                     console.log("Success")
                     return res.json()
                 }
-            }).then(data =>
-                console.log(data)
-
+            }).then(
+                data => {return storeToken(data.access_token);}
             )
+                .then(
+                    r => {return AsyncStorage.getItem('@donor_token')}
+                )
+                .then(
+                    e => navigation.navigate('Donate')
+                )
         }
         catch (error){
             console.log(error)
@@ -56,9 +75,13 @@ export const Homepage =  () => {
             onChangeText={text => setPassword(text)}
         />
 
-        <TouchableOpacity onPress={sendFormData}>
-        <Text title="login">Login</Text>
+
+        <Button title="login" onPress={sendFormData}>Login</Button>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text>Register</Text>
         </TouchableOpacity>
+
     </View>
 </View>
     );
